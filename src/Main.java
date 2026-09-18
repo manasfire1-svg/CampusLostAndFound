@@ -21,9 +21,7 @@ public class Main {
                     break;
 
                 case "2":
-                    System.out.println();
-                    System.out.println("Report Found Item");
-                    System.out.println("This feature will be added next.");
+                    reportFoundItem();
                     break;
 
                 case "3":
@@ -53,7 +51,65 @@ public class Main {
 
         scanner.close();
     }
+private static void reportFoundItem() {
 
+    System.out.println();
+    System.out.println("========== REPORT FOUND ITEM ==========");
+
+    System.out.print("Item name: ");
+    String itemName = scanner.nextLine();
+
+    if (itemName.trim().isEmpty()) {
+        System.out.println("Item name cannot be empty.");
+        return;
+    }
+
+    System.out.print("Category: ");
+    String category = scanner.nextLine();
+
+    if (category.trim().isEmpty()) {
+        System.out.println("Category cannot be empty.");
+        return;
+    }
+
+    System.out.print("Description: ");
+    String description = scanner.nextLine();
+
+    System.out.print("Location where it was found: ");
+    String location = scanner.nextLine();
+
+    if (location.trim().isEmpty()) {
+        System.out.println("Location cannot be empty.");
+        return;
+    }
+
+    System.out.print("Date (DD-MM-YYYY): ");
+    String date = scanner.nextLine();
+
+    if (date.trim().isEmpty()) {
+        System.out.println("Date cannot be empty.");
+        return;
+    }
+
+    System.out.print("Contact information: ");
+    String contact = scanner.nextLine();
+
+    if (contact.trim().isEmpty()) {
+        System.out.println("Contact information cannot be empty.");
+        return;
+    }
+
+    FoundItem foundItem = new FoundItem(
+            itemName,
+            category,
+            description,
+            location,
+            date,
+            contact
+    );
+
+    foundItem.saveItem();
+}
     private static void showMenu() {
 
         System.out.println();

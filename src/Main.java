@@ -54,7 +54,8 @@ public class Main {
         System.out.println("1. View Reports");
         System.out.println("2. Review Claims");
         System.out.println("3. Update Claim Status");
-        System.out.println("4. Logout");
+        System.out.println("4. Update Item Status");
+        System.out.println("5. Logout");
         System.out.println("--------------------------------");
         System.out.print("Enter your choice: ");
 

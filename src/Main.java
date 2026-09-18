@@ -38,6 +38,10 @@ public class Main {
                     break;
 
                 case "5":
+                    submitClaim();
+                    break;
+
+                case "6":
                     running = false;
                     System.out.println();
                     System.out.println("Thank you for using Campus Lost & Found Matcher.");
@@ -52,7 +56,55 @@ public class Main {
 
         scanner.close();
     }
+private static void submitClaim() {
 
+    System.out.println();
+    System.out.println("========== SUBMIT A CLAIM ==========");
+
+    System.out.print("Item name: ");
+    String itemName = scanner.nextLine();
+
+    if (itemName.trim().isEmpty()) {
+        System.out.println("Item name cannot be empty.");
+        return;
+    }
+
+    System.out.print("Your name: ");
+    String claimantName = scanner.nextLine();
+
+    if (claimantName.trim().isEmpty()) {
+        System.out.println("Name cannot be empty.");
+        return;
+    }
+
+    System.out.print("Contact information: ");
+    String contact = scanner.nextLine();
+
+    if (contact.trim().isEmpty()) {
+        System.out.println("Contact information cannot be empty.");
+        return;
+    }
+
+    System.out.println("Give some information that can help");
+    System.out.println("verify that the item belongs to you.");
+
+    System.out.print("Proof/details: ");
+    String proof = scanner.nextLine();
+
+    if (proof.trim().isEmpty()) {
+        System.out.println("Proof/details cannot be empty.");
+        return;
+    }
+
+    Claim claim = new Claim(
+            itemName,
+            claimantName,
+            contact,
+            proof
+    );
+
+    claim.saveClaim();
+}
     private static void showMenu() {
 
         System.out.println();
@@ -63,7 +115,8 @@ public class Main {
         System.out.println("2. Report Found Item");
         System.out.println("3. View Items");
         System.out.println("4. Find Possible Matches");
-        System.out.println("5. Exit");
+        System.out.println("5. Submit a Claim");
+        System.out.println("6. Exit");
         System.out.println("------------------------------------------");
         System.out.print("Enter your choice: ");
     }

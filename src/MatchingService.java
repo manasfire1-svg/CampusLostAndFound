@@ -7,82 +7,102 @@ public class MatchingService {
 
     public void findMatches() {
 
+        System.out.println();
+        System.out.println("========== POSSIBLE MATCHES ==========");
+
         File lostFile = new File("data/lost_items.txt");
         File foundFile = new File("data/found_items.txt");
 
-        System.out.println();
-        System.out.println("==========================================");
-        System.out.println("          POSSIBLE ITEM MATCHES");
-        System.out.println("==========================================");
-
-        if (!lostFile.exists()) {
-            System.out.println("No lost item reports available.");
-            return;
-        }
-
-        if (!foundFile.exists()) {
-            System.out.println("No found item reports available.");
+        if (!lostFile.exists() || !foundFile.exists()) {
+            System.out.println("Not enough item reports for matching.");
             return;
         }
 
         boolean matchFound = false;
 
-        try (
-                BufferedReader lostReader = new BufferedReader(
-                        new FileReader(lostFile));
-                BufferedReader foundReader = new BufferedReader(
-                        new FileReader(foundFile))
-        ) {
+        try (BufferedReader lostReader =
+                     new BufferedReader(new FileReader(lostFile))) {
 
             String lostLine;
 
             while ((lostLine = lostReader.readLine()) != null) {
 
-                String[] lostData = lostLine.split("\\|", -1);
+                String[] lost = lostLine.split("\\|", -1);
 
-                if (lostData.length < 6) {
+                if (lost.length < 6) {
                     continue;
                 }
 
-                String foundLine;
+                String lostStatus =
+                        lost.length >= 7 ? lost[6] : "ACTIVE";
 
-                try (BufferedReader currentFoundReader =
-                             new BufferedReader(new FileReader(foundFile))) {
+                if (!lostStatus.equalsIgnoreCase("ACTIVE")) {
+                    continue;
+                }
 
-                    while ((foundLine = currentFoundReader.readLine()) != null) {
+                try (BufferedReader foundReader =
+                             new BufferedReader(
+                                     new FileReader(foundFile))) {
 
-                        String[] foundData = foundLine.split("\\|", -1);
+                    String foundLine;
 
-                        if (foundData.length < 6) {
+                    while ((foundLine =
+                                   foundReader.readLine()) != null) {
+
+                        String[] found =
+                                foundLine.split("\\|", -1);
+
+                        if (found.length < 6) {
                             continue;
                         }
 
-                        int score = calculateScore(lostData, foundData);
+                        String foundStatus =
+                                found.length >= 7
+                                        ? found[6]
+                                        : "ACTIVE";
 
-                        if (score >= 60) {
+                        if (!foundStatus.equalsIgnoreCase("ACTIVE")) {
+                            continue;
+                        }
+
+                        int score = calculateScore(lost, found);
+
+                        if (score >= 2) {
 
                             matchFound = true;
 
                             System.out.println();
-                            System.out.println("------------------------------------------");
-                            System.out.println("Possible Match Found");
-                            System.out.println("------------------------------------------");
+                            System.out.println(
+                                    "Possible Match Found!"
+                            );
 
-                            System.out.println("Lost Item  : " + lostData[0]);
-                            System.out.println("Found Item : " + foundData[0]);
-                            System.out.println("Category   : " + lostData[1]);
-                            System.out.println("Lost From  : " + lostData[3]);
-                            System.out.println("Found At   : " + foundData[3]);
-                            System.out.println("Lost Date  : " + lostData[4]);
-                            System.out.println("Found Date : " + foundData[4]);
+                            System.out.println(
+                                    "Lost Item  : " + lost[0]
+                            );
 
-                            System.out.println("Match Score: " + score + "%");
+                            System.out.println(
+                                    "Found Item : " + found[0]
+                            );
 
-                            if (score >= 80) {
-                                System.out.println("Result     : Strong Match");
-                            } else {
-                                System.out.println("Result     : Possible Match");
-                            }
+                            System.out.println(
+                                    "Category   : " + lost[1]
+                            );
+
+                            System.out.println(
+                                    "Lost Place : " + lost[3]
+                            );
+
+                            System.out.println(
+                                    "Found Place: " + found[3]
+                            );
+
+                            System.out.println(
+                                    "Match Score: " + score + "/4"
+                            );
+
+                            System.out.println(
+                                    "------------------------------------------"
+                            );
                         }
                     }
                 }
@@ -90,53 +110,71 @@ public class MatchingService {
 
         } catch (IOException e) {
 
-            System.out.println("Unable to check for matches.");
+            System.out.println(
+                    "Unable to process matching."
+            );
         }
 
         if (!matchFound) {
-            System.out.println();
-            System.out.println("No possible matches found.");
-        }
 
-        System.out.println();
+            System.out.println();
+            System.out.println(
+                    "No strong matches found."
+            );
+        }
     }
 
-    private int calculateScore(String[] lost, String[] found) {
+    private int calculateScore(
+            String[] lost,
+            String[] found) {
 
         int score = 0;
 
-        // Category comparison - 25 points
-        if (lost[1].trim().equalsIgnoreCase(found[1].trim())) {
-            score += 25;
+        String lostName =
+                lost[0].trim().toLowerCase();
+
+        String foundName =
+                found[0].trim().toLowerCase();
+
+        String lostCategory =
+                lost[1].trim().toLowerCase();
+
+        String foundCategory =
+                found[1].trim().toLowerCase();
+
+        String lostDescription =
+                lost[2].trim().toLowerCase();
+
+        String foundDescription =
+                found[2].trim().toLowerCase();
+
+        String lostLocation =
+                lost[3].trim().toLowerCase();
+
+        String foundLocation =
+                found[3].trim().toLowerCase();
+
+        if (lostName.equals(foundName)
+                || lostName.contains(foundName)
+                || foundName.contains(lostName)) {
+
+            score++;
         }
 
-        // Item name comparison - 30 points
-        if (similarText(lost[0], found[0])) {
-            score += 30;
+        if (lostCategory.equals(foundCategory)) {
+            score++;
         }
 
-        // Location comparison - 25 points
-        if (similarText(lost[3], found[3])) {
-            score += 25;
+        if (lostLocation.equals(foundLocation)) {
+            score++;
         }
 
-        // Date comparison - 20 points
-        if (lost[4].trim().equalsIgnoreCase(found[4].trim())) {
-            score += 20;
+        if (lostDescription.contains(foundDescription)
+                || foundDescription.contains(lostDescription)) {
+
+            score++;
         }
 
         return score;
-    }
-
-    private boolean similarText(String first, String second) {
-
-        String text1 = first.toLowerCase().trim();
-        String text2 = second.toLowerCase().trim();
-
-        if (text1.equals(text2)) {
-            return true;
-        }
-
-        return text1.contains(text2) || text2.contains(text1);
     }
 }

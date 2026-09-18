@@ -94,6 +94,8 @@ public class Main {
 
     scanner.close();
 }
+
+
 private static void submitClaim() {
 
     System.out.println();
@@ -418,4 +420,7 @@ private static boolean loginUser() {
             System.out.println("Unable to read the reports.");
         }
     }
+    public static String readInput() {
+    return scanner.nextLine();
+}
 }

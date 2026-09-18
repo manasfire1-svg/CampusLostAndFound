@@ -20,7 +20,8 @@ public class Main {
         System.out.println("==========================================");
         System.out.println("1. Register");
         System.out.println("2. Login");
-        System.out.println("3. Exit");
+        System.out.println("3. Admin Login");
+        System.out.println("4. Exit");
         System.out.println("------------------------------------------");
         System.out.print("Enter your choice: ");
 
@@ -37,9 +38,58 @@ public class Main {
                 break;
 
             case "3":
-                System.out.println("Thank you for using the application.");
-                scanner.close();
-                return;
+            adminLogin();
+                private static void adminMenu() {
+
+    Admin admin = new Admin();
+
+    boolean loggedIn = true;
+
+    while (loggedIn) {
+
+        System.out.println();
+        System.out.println("================================");
+        System.out.println("          ADMIN PANEL");
+        System.out.println("================================");
+        System.out.println("1. View Reports");
+        System.out.println("2. Review Claims");
+        System.out.println("3. Update Claim Status");
+        System.out.println("4. Logout");
+        System.out.println("--------------------------------");
+        System.out.print("Enter your choice: ");
+
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+
+            case "1":
+                admin.showReports();
+                break;
+
+            case "2":
+                admin.reviewClaims();
+                break;
+
+            case "3":
+                admin.updateClaimStatus();
+                break;
+
+            case "4":
+                loggedIn = false;
+                System.out.println("Admin logged out.");
+                break;
+
+            default:
+                System.out.println("Invalid choice.");
+        }
+    }
+}
+            break;
+
+            case "4":
+            System.out.println("Thank you for using the application.");
+            scanner.close();
+            return;
 
             default:
                 System.out.println("Invalid choice.");
@@ -422,5 +472,29 @@ private static boolean loginUser() {
     }
     public static String readInput() {
     return scanner.nextLine();
+}
+    private static void adminLogin() {
+
+    System.out.println();
+    System.out.println("========== ADMIN LOGIN ==========");
+
+    System.out.print("Admin email: ");
+    String email = scanner.nextLine();
+
+    System.out.print("Admin password: ");
+    String password = scanner.nextLine();
+
+    if (Admin.login(email, password)) {
+
+        System.out.println();
+        System.out.println("Admin login successful.");
+
+        adminMenu();
+
+    } else {
+
+        System.out.println();
+        System.out.println("Invalid admin email or password.");
+    }
 }
 }

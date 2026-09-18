@@ -119,27 +119,33 @@ public class Main {
                 viewItems();
                 break;
 
-            case "4":
+             case "4":
+                SearchService searchService =
+                        new SearchService();
+                searchService.searchItems();
+                break;
+            
+            case "5":
                 MatchingService matchingService =
                         new MatchingService();
                 matchingService.findMatches();
                 break;
-
-            case "5":
+            
+            case "6":
                 submitClaim();
                 break;
-
-            case "6":
+            
+            case "7":
                 running = false;
                 System.out.println();
                 System.out.println(
-                        "Thank you for using Campus Lost & Found Matcher.");
+                        "Thank you for using Campus Lost & Found Matcher."
+                );
                 break;
-
             default:
                 System.out.println();
                 System.out.println("Invalid choice.");
-                System.out.println("Please enter a number from 1 to 6.");
+                System.out.println("Please enter a number from 1 to 7.");
         }
     }
 
@@ -205,9 +211,10 @@ private static void submitClaim() {
         System.out.println("1. Report Lost Item");
         System.out.println("2. Report Found Item");
         System.out.println("3. View Items");
-        System.out.println("4. Find Possible Matches");
-        System.out.println("5. Submit a Claim");
-        System.out.println("6. Exit");
+        System.out.println("4. Search Items");
+        System.out.println("5. Find Possible Matches");
+        System.out.println("6. Submit a Claim");
+        System.out.println("7. Exit");
         System.out.println("------------------------------------------");
         System.out.print("Enter your choice: ");
     }

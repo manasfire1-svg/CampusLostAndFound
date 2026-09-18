@@ -10,52 +10,90 @@ public class Main {
 
     public static void main(String[] args) {
 
-        boolean running = true;
+    boolean loggedIn = false;
 
-        while (running) {
+    while (!loggedIn) {
 
-            showMenu();
+        System.out.println();
+        System.out.println("==========================================");
+        System.out.println("       CAMPUS LOST & FOUND MATCHER");
+        System.out.println("==========================================");
+        System.out.println("1. Register");
+        System.out.println("2. Login");
+        System.out.println("3. Exit");
+        System.out.println("------------------------------------------");
+        System.out.print("Enter your choice: ");
 
-            String choice = scanner.nextLine();
+        String choice = scanner.nextLine();
 
-            switch (choice) {
+        switch (choice) {
 
-                case "1":
-                    reportLostItem();
-                    break;
+            case "1":
+                registerUser();
+                break;
 
-                case "2":
-                    reportFoundItem();
-                    break;
+            case "2":
+                loggedIn = loginUser();
+                break;
 
-                case "3":
-                    viewItems();
-                    break;
+            case "3":
+                System.out.println("Thank you for using the application.");
+                scanner.close();
+                return;
 
-                case "4":
-                    MatchingService matchingService = new MatchingService();
-                    matchingService.findMatches();
-                    break;
-
-                case "5":
-                    submitClaim();
-                    break;
-
-                case "6":
-                    running = false;
-                    System.out.println();
-                    System.out.println("Thank you for using Campus Lost & Found Matcher.");
-                    break;
-
-                default:
-                    System.out.println();
-                    System.out.println("Invalid choice.");
-                    System.out.println("Please enter a number from 1 to 5.");
-            }
+            default:
+                System.out.println("Invalid choice.");
         }
-
-        scanner.close();
     }
+
+    boolean running = true;
+
+    while (running) {
+
+        showMenu();
+
+        String choice = scanner.nextLine();
+
+        switch (choice) {
+
+            case "1":
+                reportLostItem();
+                break;
+
+            case "2":
+                reportFoundItem();
+                break;
+
+            case "3":
+                viewItems();
+                break;
+
+            case "4":
+                MatchingService matchingService =
+                        new MatchingService();
+                matchingService.findMatches();
+                break;
+
+            case "5":
+                submitClaim();
+                break;
+
+            case "6":
+                running = false;
+                System.out.println();
+                System.out.println(
+                        "Thank you for using Campus Lost & Found Matcher.");
+                break;
+
+            default:
+                System.out.println();
+                System.out.println("Invalid choice.");
+                System.out.println("Please enter a number from 1 to 6.");
+        }
+    }
+
+    scanner.close();
+}
 private static void submitClaim() {
 
     System.out.println();
@@ -180,6 +218,66 @@ private static void submitClaim() {
 
         lostItem.saveItem();
     }
+    private static void registerUser() {
+
+    System.out.println();
+    System.out.println("========== REGISTER ==========");
+
+    System.out.print("Name: ");
+    String name = scanner.nextLine();
+
+    if (name.trim().isEmpty()) {
+        System.out.println("Name cannot be empty.");
+        return;
+    }
+
+    System.out.print("Email: ");
+    String email = scanner.nextLine();
+
+    if (email.trim().isEmpty() || !email.contains("@")) {
+        System.out.println("Please enter a valid email.");
+        return;
+    }
+
+    System.out.print("Password: ");
+    String password = scanner.nextLine();
+
+    if (password.length() < 4) {
+        System.out.println(
+                "Password must contain at least 4 characters.");
+        return;
+    }
+
+    User user = new User(name, email, password);
+    user.register();
+}
+private static boolean loginUser() {
+
+    System.out.println();
+    System.out.println("========== LOGIN ==========");
+
+    System.out.print("Email: ");
+    String email = scanner.nextLine();
+
+    System.out.print("Password: ");
+    String password = scanner.nextLine();
+
+    if (User.login(email, password)) {
+
+        System.out.println();
+        System.out.println("Login successful.");
+        System.out.println("Welcome to Campus Lost & Found Matcher.");
+
+        return true;
+
+    } else {
+
+        System.out.println();
+        System.out.println("Invalid email or password.");
+
+        return false;
+    }
+}
 
     private static void reportFoundItem() {
 

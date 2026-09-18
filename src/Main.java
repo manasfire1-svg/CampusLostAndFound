@@ -33,9 +33,8 @@ public class Main {
                     break;
 
                 case "4":
-                    System.out.println();
-                    System.out.println("========== POSSIBLE MATCHES ==========");
-                    System.out.println("Matching feature will be added next.");
+                    MatchingService matchingService = new MatchingService();
+                    matchingService.findMatches();
                     break;
 
                 case "5":

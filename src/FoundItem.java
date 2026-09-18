@@ -38,13 +38,13 @@ public class FoundItem {
                     new FileWriter(file, true))) {
 
                 writer.println(
-                        itemName + "|" +
-                        category + "|" +
-                        description + "|" +
-                        location + "|" +
-                        date + "|" +
-                        contact
-                );
+                itemName + "|" +
+                category + "|" +
+                description + "|" +
+                location + "|" +
+                date + "|" +
+                contact + "|ACTIVE"
+            );
             }
 
             System.out.println();

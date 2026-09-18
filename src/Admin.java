@@ -14,8 +14,8 @@ public class Admin {
 
     public static boolean login(String email, String password) {
 
-        return ADMIN_EMAIL.equalsIgnoreCase(email)
-                && ADMIN_PASSWORD.equals(password);
+            return email.equals("admin@campus.com")
+                && password.equals("admin123");
     }
 
     public void showReports() {

@@ -10,198 +10,123 @@ public class Main {
 
     public static void main(String[] args) {
 
-    boolean loggedIn = false;
+        boolean loggedIn = false;
 
-    while (!loggedIn) {
+        // ==============================
+        // LOGIN MENU
+        // ==============================
 
-        System.out.println();
-        System.out.println("==========================================");
-        System.out.println("       CAMPUS LOST & FOUND MATCHER");
-        System.out.println("==========================================");
-        System.out.println("1. Register");
-        System.out.println("2. Login");
-        System.out.println("3. Admin Login");
-        System.out.println("4. Exit");
-        System.out.println("------------------------------------------");
-        System.out.print("Enter your choice: ");
+        while (!loggedIn) {
 
-        String choice = scanner.nextLine();
+            System.out.println();
+            System.out.println("==========================================");
+            System.out.println("       CAMPUS LOST & FOUND MATCHER");
+            System.out.println("==========================================");
+            System.out.println("1. Register");
+            System.out.println("2. Login");
+            System.out.println("3. Admin Login");
+            System.out.println("4. Exit");
+            System.out.println("------------------------------------------");
+            System.out.print("Enter your choice: ");
 
-        switch (choice) {
+            String choice = scanner.nextLine();
 
-            case "1":
-                registerUser();
-                break;
+            switch (choice) {
 
-            case "2":
-                loggedIn = loginUser();
-                break;
+                case "1":
+                    registerUser();
+                    break;
 
-            case "3":
-            adminLogin();
-                private static void adminMenu() {
+                case "2":
+                    loggedIn = loginUser();
+                    break;
 
-    Admin admin = new Admin();
+                case "3":
+                    adminLogin();
+                    break;
 
-    boolean loggedIn = true;
+                case "4":
+                    System.out.println();
+                    System.out.println(
+                            "Thank you for using the application."
+                    );
+                    scanner.close();
+                    return;
 
-    while (loggedIn) {
-
-        System.out.println();
-        System.out.println("================================");
-        System.out.println("          ADMIN PANEL");
-        System.out.println("================================");
-        System.out.println("1. View Reports");
-        System.out.println("2. Review Claims");
-        System.out.println("3. Update Claim Status");
-        System.out.println("4. Update Item Status");
-        System.out.println("5. Logout");
-        System.out.println("--------------------------------");
-        System.out.print("Enter your choice: ");
-
-        String choice = scanner.nextLine();
-
-        switch (choice) {
-
-            case "1":
-                admin.showReports();
-                break;
-
-            case "2":
-                admin.reviewClaims();
-                break;
-
-            case "3":
-                admin.updateClaimStatus();
-                break;
-
-            case "4":
-                loggedIn = false;
-                System.out.println("Admin logged out.");
-                break;
-
-            default:
-                System.out.println("Invalid choice.");
+                default:
+                    System.out.println("Invalid choice.");
+            }
         }
-    }
-}
-            break;
 
-            case "4":
-            System.out.println("Thank you for using the application.");
-            scanner.close();
-            return;
+        // ==============================
+        // USER MENU
+        // ==============================
 
-            default:
-                System.out.println("Invalid choice.");
+        boolean running = true;
+
+        while (running) {
+
+            showMenu();
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+
+                case "1":
+                    reportLostItem();
+                    break;
+
+                case "2":
+                    reportFoundItem();
+                    break;
+
+                case "3":
+                    viewItems();
+                    break;
+
+                case "4":
+                    SearchService searchService =
+                            new SearchService();
+
+                    searchService.searchItems();
+                    break;
+
+                case "5":
+                    MatchingService matchingService =
+                            new MatchingService();
+
+                    matchingService.findMatches();
+                    break;
+
+                case "6":
+                    submitClaim();
+                    break;
+
+                case "7":
+                    running = false;
+
+                    System.out.println();
+                    System.out.println(
+                            "Thank you for using Campus Lost & Found Matcher."
+                    );
+                    break;
+
+                default:
+                    System.out.println();
+                    System.out.println("Invalid choice.");
+                    System.out.println(
+                            "Please enter a number from 1 to 7."
+                    );
+            }
         }
+
+        scanner.close();
     }
 
-    boolean running = true;
+    // ==============================
+    // USER MENU
+    // ==============================
 
-    while (running) {
-
-        showMenu();
-
-        String choice = scanner.nextLine();
-
-        switch (choice) {
-
-            case "1":
-                reportLostItem();
-                break;
-
-            case "2":
-                reportFoundItem();
-                break;
-
-            case "3":
-                viewItems();
-                break;
-
-             case "4":
-                SearchService searchService =
-                        new SearchService();
-                searchService.searchItems();
-                break;
-            
-            case "5":
-                MatchingService matchingService =
-                        new MatchingService();
-                matchingService.findMatches();
-                break;
-            
-            case "6":
-                submitClaim();
-                break;
-            
-            case "7":
-                running = false;
-                System.out.println();
-                System.out.println(
-                        "Thank you for using Campus Lost & Found Matcher."
-                );
-                break;
-            default:
-                System.out.println();
-                System.out.println("Invalid choice.");
-                System.out.println("Please enter a number from 1 to 7.");
-        }
-    }
-
-    scanner.close();
-}
-
-
-private static void submitClaim() {
-
-    System.out.println();
-    System.out.println("========== SUBMIT A CLAIM ==========");
-
-    System.out.print("Item name: ");
-    String itemName = scanner.nextLine();
-
-    if (itemName.trim().isEmpty()) {
-        System.out.println("Item name cannot be empty.");
-        return;
-    }
-
-    System.out.print("Your name: ");
-    String claimantName = scanner.nextLine();
-
-    if (claimantName.trim().isEmpty()) {
-        System.out.println("Name cannot be empty.");
-        return;
-    }
-
-    System.out.print("Contact information: ");
-    String contact = scanner.nextLine();
-
-    if (contact.trim().isEmpty()) {
-        System.out.println("Contact information cannot be empty.");
-        return;
-    }
-
-    System.out.println("Give some information that can help");
-    System.out.println("verify that the item belongs to you.");
-
-    System.out.print("Proof/details: ");
-    String proof = scanner.nextLine();
-
-    if (proof.trim().isEmpty()) {
-        System.out.println("Proof/details cannot be empty.");
-        return;
-    }
-
-    Claim claim = new Claim(
-            itemName,
-            claimantName,
-            contact,
-            proof
-    );
-
-    claim.saveClaim();
-}
     private static void showMenu() {
 
         System.out.println();
@@ -218,6 +143,194 @@ private static void submitClaim() {
         System.out.println("------------------------------------------");
         System.out.print("Enter your choice: ");
     }
+
+    // ==============================
+    // REGISTER USER
+    // ==============================
+
+    private static void registerUser() {
+
+        System.out.println();
+        System.out.println("========== REGISTER ==========");
+
+        System.out.print("Name: ");
+        String name = scanner.nextLine();
+
+        if (name.trim().isEmpty()) {
+            System.out.println("Name cannot be empty.");
+            return;
+        }
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+
+        if (email.trim().isEmpty() || !email.contains("@")) {
+            System.out.println("Please enter a valid email.");
+            return;
+        }
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        if (password.length() < 4) {
+            System.out.println(
+                    "Password must contain at least 4 characters."
+            );
+            return;
+        }
+
+        User user = new User(name, email, password);
+        user.register();
+    }
+
+    // ==============================
+    // USER LOGIN
+    // ==============================
+
+    private static boolean loginUser() {
+
+        System.out.println();
+        System.out.println("========== LOGIN ==========");
+
+        System.out.print("Email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Password: ");
+        String password = scanner.nextLine();
+
+        if (User.login(email, password)) {
+
+            System.out.println();
+            System.out.println("Login successful.");
+            System.out.println(
+                    "Welcome to Campus Lost & Found Matcher."
+            );
+
+            return true;
+
+        } else {
+
+            System.out.println();
+            System.out.println("Invalid email or password.");
+
+            return false;
+        }
+    }
+
+    // ==============================
+    // ADMIN LOGIN
+    // ==============================
+
+    private static void adminLogin() {
+
+        System.out.println();
+        System.out.println("========== ADMIN LOGIN ==========");
+
+        System.out.print("Admin email: ");
+        String email = scanner.nextLine();
+
+        System.out.print("Admin password: ");
+        String password = scanner.nextLine();
+
+        if (Admin.login(email, password)) {
+
+            System.out.println();
+            System.out.println("Admin login successful.");
+
+            adminMenu();
+
+        } else {
+
+            System.out.println();
+            System.out.println("Invalid admin email or password.");
+        }
+    }
+
+    // ==============================
+    // ADMIN MENU
+    // ==============================
+
+    private static void adminMenu() {
+
+        Admin admin = new Admin();
+
+        boolean adminRunning = true;
+
+        while (adminRunning) {
+
+            System.out.println();
+            System.out.println("================================");
+            System.out.println("          ADMIN PANEL");
+            System.out.println("================================");
+            System.out.println("1. View Reports");
+            System.out.println("2. Review Claims");
+            System.out.println("3. Update Claim Status");
+            System.out.println("4. Update Item Status");
+            System.out.println("5. Logout");
+            System.out.println("--------------------------------");
+            System.out.print("Enter your choice: ");
+
+            String choice = scanner.nextLine();
+
+            switch (choice) {
+
+                case "1":
+                    admin.showReports();
+                    break;
+
+                case "2":
+                    admin.reviewClaims();
+                    break;
+
+                case "3":
+                    admin.updateClaimStatus();
+                    break;
+
+                case "4":
+                    updateItemStatus();
+                    break;
+
+                case "5":
+                    adminRunning = false;
+                    System.out.println("Admin logged out.");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        }
+    }
+
+    // ==============================
+    // UPDATE ITEM STATUS
+    // ==============================
+
+    private static void updateItemStatus() {
+
+        System.out.println();
+        System.out.println("========== UPDATE ITEM STATUS ==========");
+
+        System.out.println("Item status management is available.");
+        System.out.println("Use ItemStatusManager for status updates.");
+
+        try {
+
+            ItemStatusManager manager =
+                    new ItemStatusManager();
+
+            manager.showStatusOptions();
+
+        } catch (Exception e) {
+
+            System.out.println(
+                    "Unable to open item status management."
+            );
+        }
+    }
+
+    // ==============================
+    // REPORT LOST ITEM
+    // ==============================
 
     private static void reportLostItem() {
 
@@ -242,6 +355,11 @@ private static void submitClaim() {
 
         System.out.print("Description: ");
         String description = scanner.nextLine();
+
+        if (description.trim().isEmpty()) {
+            System.out.println("Description cannot be empty.");
+            return;
+        }
 
         System.out.print("Location where it was lost: ");
         String location = scanner.nextLine();
@@ -278,66 +396,10 @@ private static void submitClaim() {
 
         lostItem.saveItem();
     }
-    private static void registerUser() {
 
-    System.out.println();
-    System.out.println("========== REGISTER ==========");
-
-    System.out.print("Name: ");
-    String name = scanner.nextLine();
-
-    if (name.trim().isEmpty()) {
-        System.out.println("Name cannot be empty.");
-        return;
-    }
-
-    System.out.print("Email: ");
-    String email = scanner.nextLine();
-
-    if (email.trim().isEmpty() || !email.contains("@")) {
-        System.out.println("Please enter a valid email.");
-        return;
-    }
-
-    System.out.print("Password: ");
-    String password = scanner.nextLine();
-
-    if (password.length() < 4) {
-        System.out.println(
-                "Password must contain at least 4 characters.");
-        return;
-    }
-
-    User user = new User(name, email, password);
-    user.register();
-}
-private static boolean loginUser() {
-
-    System.out.println();
-    System.out.println("========== LOGIN ==========");
-
-    System.out.print("Email: ");
-    String email = scanner.nextLine();
-
-    System.out.print("Password: ");
-    String password = scanner.nextLine();
-
-    if (User.login(email, password)) {
-
-        System.out.println();
-        System.out.println("Login successful.");
-        System.out.println("Welcome to Campus Lost & Found Matcher.");
-
-        return true;
-
-    } else {
-
-        System.out.println();
-        System.out.println("Invalid email or password.");
-
-        return false;
-    }
-}
+    // ==============================
+    // REPORT FOUND ITEM
+    // ==============================
 
     private static void reportFoundItem() {
 
@@ -362,6 +424,11 @@ private static boolean loginUser() {
 
         System.out.print("Description: ");
         String description = scanner.nextLine();
+
+        if (description.trim().isEmpty()) {
+            System.out.println("Description cannot be empty.");
+            return;
+        }
 
         System.out.print("Location where it was found: ");
         String location = scanner.nextLine();
@@ -399,6 +466,10 @@ private static boolean loginUser() {
         foundItem.saveItem();
     }
 
+    // ==============================
+    // VIEW ITEMS
+    // ==============================
+
     private static void viewItems() {
 
         System.out.println();
@@ -414,16 +485,29 @@ private static boolean loginUser() {
         switch (choice) {
 
             case "1":
-                displayFile("data/lost_items.txt", "LOST ITEMS");
+                displayFile(
+                        "data/lost_items.txt",
+                        "LOST ITEMS"
+                );
                 break;
 
             case "2":
-                displayFile("data/found_items.txt", "FOUND ITEMS");
+                displayFile(
+                        "data/found_items.txt",
+                        "FOUND ITEMS"
+                );
                 break;
 
             case "3":
-                displayFile("data/lost_items.txt", "LOST ITEMS");
-                displayFile("data/found_items.txt", "FOUND ITEMS");
+                displayFile(
+                        "data/lost_items.txt",
+                        "LOST ITEMS"
+                );
+
+                displayFile(
+                        "data/found_items.txt",
+                        "FOUND ITEMS"
+                );
                 break;
 
             default:
@@ -431,7 +515,72 @@ private static boolean loginUser() {
         }
     }
 
-    private static void displayFile(String filePath, String title) {
+    // ==============================
+    // SUBMIT CLAIM
+    // ==============================
+
+    private static void submitClaim() {
+
+        System.out.println();
+        System.out.println("========== SUBMIT A CLAIM ==========");
+
+        System.out.print("Item name: ");
+        String itemName = scanner.nextLine();
+
+        if (itemName.trim().isEmpty()) {
+            System.out.println("Item name cannot be empty.");
+            return;
+        }
+
+        System.out.print("Your name: ");
+        String claimantName = scanner.nextLine();
+
+        if (claimantName.trim().isEmpty()) {
+            System.out.println("Name cannot be empty.");
+            return;
+        }
+
+        System.out.print("Contact information: ");
+        String contact = scanner.nextLine();
+
+        if (contact.trim().isEmpty()) {
+            System.out.println("Contact information cannot be empty.");
+            return;
+        }
+
+        System.out.println();
+        System.out.println(
+                "Give some information that can help"
+        );
+        System.out.println(
+                "verify that the item belongs to you."
+        );
+
+        System.out.print("Proof/details: ");
+        String proof = scanner.nextLine();
+
+        if (proof.trim().isEmpty()) {
+            System.out.println("Proof/details cannot be empty.");
+            return;
+        }
+
+        Claim claim = new Claim(
+                itemName,
+                claimantName,
+                contact,
+                proof
+        );
+
+        claim.saveClaim();
+    }
+
+    // ==============================
+    // DISPLAY FILE
+    // ==============================
+
+    private static void displayFile(
+            String filePath,
+            String title) {
 
         File file = new File(filePath);
 
@@ -443,8 +592,12 @@ private static boolean loginUser() {
             return;
         }
 
-        try (BufferedReader reader = new BufferedReader(
-                new FileReader(file))) {
+        try (
+                BufferedReader reader =
+                        new BufferedReader(
+                                new FileReader(file)
+                        )
+        ) {
 
             String line;
             int count = 1;
@@ -463,7 +616,16 @@ private static boolean loginUser() {
                     System.out.println("Location   : " + data[3]);
                     System.out.println("Date       : " + data[4]);
                     System.out.println("Contact    : " + data[5]);
-                    System.out.println("-----------------------------------------");
+
+                    if (data.length >= 7) {
+                        System.out.println(
+                                "Status     : " + data[6]
+                        );
+                    }
+
+                    System.out.println(
+                            "-----------------------------------------"
+                    );
 
                     count++;
                 }
@@ -475,34 +637,17 @@ private static boolean loginUser() {
 
         } catch (IOException e) {
 
-            System.out.println("Unable to read the reports.");
+            System.out.println(
+                    "Unable to read the reports."
+            );
         }
     }
+
+    // ==============================
+    // SHARED INPUT
+    // ==============================
+
     public static String readInput() {
-    return scanner.nextLine();
-}
-    private static void adminLogin() {
-
-    System.out.println();
-    System.out.println("========== ADMIN LOGIN ==========");
-
-    System.out.print("Admin email: ");
-    String email = scanner.nextLine();
-
-    System.out.print("Admin password: ");
-    String password = scanner.nextLine();
-
-    if (Admin.login(email, password)) {
-
-        System.out.println();
-        System.out.println("Admin login successful.");
-
-        adminMenu();
-
-    } else {
-
-        System.out.println();
-        System.out.println("Invalid admin email or password.");
+        return scanner.nextLine();
     }
-}
 }
